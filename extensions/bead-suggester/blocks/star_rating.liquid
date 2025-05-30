@@ -1,0 +1,395 @@
+<div class="bead-suggester-widget" id="bead-suggester-{{ block.id }}">
+  <h3>{{ block.settings.widget_title | default: 'Find Your Perfect Beads' }}</h3>
+  
+  <!-- Date of Birth Form -->
+  <div class="dob-form">
+    <label for="dob-{{ block.id }}">Enter your date of birth:</label>
+    <input 
+      type="date" 
+      id="dob-{{ block.id }}" 
+      class="dob-input"
+      onchange="suggestBeads(this.value, '{{ block.id }}')"
+    >
+  </div>
+  
+  <!-- Loading State -->
+  <div id="loading-{{ block.id }}" class="loading-state" style="display: none;">
+    Finding your perfect beads...
+  </div>
+  
+  <!-- Recommendations Container -->
+  <div class="recommendations-wrapper" id="recommendations-wrapper-{{ block.id }}" style="display: none;">
+    
+    <!-- First Row: Age-Based Recommendations -->
+    <div class="recommendation-row">
+      <h4 class="section-title">Age Based Recommendations</h4>
+      <div class="recommendations-container" id="age-products-{{ block.id }}">
+        <!-- Age-based products will be loaded here -->
+      </div>
+    </div>
+    
+    <!-- Second Row: Month-Based Recommendations -->
+    <div class="recommendation-row">
+      <h4 class="section-title">Month Based Recommendations</h4>
+      <div class="recommendations-container" id="month-products-{{ block.id }}">
+        <!-- Month-based products will be loaded here -->
+      </div>
+    </div>
+
+    <!-- Health and Personality Development Recommendations -->
+    <div class="recommendation-row">
+      <h4 class="section-title">Rudraksh For Health & Personality Development</h4>
+      <div class="recommendations-container" id="month-products-{{ block.id }}">
+        <!-- Month-based products will be loaded here -->
+      </div>
+    </div>
+
+    
+    <!-- Career, Profession Finance Recommendations -->
+    <div class="recommendation-row">
+      <h4 class="section-title">Rudraksh For Career, Profession & Finance</h4>
+      <div class="recommendations-container" id="month-products-{{ block.id }}">
+        <!-- Month-based products will be loaded here -->
+      </div>
+    </div>
+
+
+    <!-- Overall Prosperity Recommendations -->
+    <div class="recommendation-row">
+      <h4 class="section-title">Rudraksh For Overall Prosperity</h4>
+      <div class="recommendations-container" id="month-products-{{ block.id }}">
+        <!-- Month-based products will be loaded here -->
+      </div>
+    </div>
+
+    
+    <!-- Rudraksha Expert Recommendations -->
+    <div class="recommendation-row">
+      <h4 class="section-title">Rudraksh Recommendations from Rudra Samrat</h4>
+      <div class="recommendations-container" id="month-products-{{ block.id }}">
+        <!-- Month-based products will be loaded here -->
+      </div>
+    </div>
+    
+  </div>
+  
+  <!-- No Results Message -->
+  <div id="no-results-{{ block.id }}" class="no-results" style="display: none;">
+    <p>Sorry, we could not find matching beads. Please check back later!</p>
+  </div>
+</div>
+
+<style>
+  .bead-suggester-widget {
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin: 20px 0;
+    background-color: {{ block.settings.background_color | default: '#f9f9f9' }};
+    font-family: Arial, sans-serif;
+  }
+  
+  .bead-suggester-widget h3 {
+    margin-top: 0;
+    color: {{ block.settings.title_color | default: '#333' }};
+    text-align: center;
+  }
+  
+  .dob-form {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .dob-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .dob-input {
+    width: 200px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  /* Recommendations Wrapper - Stacked Rows */
+  .recommendations-wrapper {
+    margin-top: 20px;
+  }
+  
+  /* Each Row */
+  .recommendation-row {
+    margin-bottom: 30px;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+  }
+  
+  .recommendation-row:last-child {
+    margin-bottom: 0;
+  }
+  
+  .section-title {
+    color: {{ block.settings.section_title_color | default: '#444' }};
+    border-bottom: 2px solid {{ block.settings.accent_color | default: '#007bff' }};
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+    font-size: 18px;
+    text-align: center;
+    margin-top: 0;
+  }
+  
+  /* Products in horizontal row */
+  .recommendations-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+  }
+  
+  .product-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    background: #fafafa;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  
+  .product-image {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  
+  .product-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 8px 0;
+    color: #333;
+    line-height: 1.3;
+  }
+  
+  .product-price {
+    color: {{ block.settings.price_color | default: '#007bff' }};
+    font-weight: bold;
+    margin: 8px 0;
+    font-size: 16px;
+  }
+  
+  .product-btn {
+    background: {{ block.settings.button_color | default: '#007bff' }};
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 12px;
+    display: inline-block;
+    transition: background 0.2s;
+  }
+  
+  .product-btn:hover {
+    background: {{ block.settings.button_hover_color | default: '#0056b3' }};
+    color: white;
+    text-decoration: none;
+  }
+  
+  .loading-state {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-style: italic;
+  }
+  
+  .no-results {
+    text-align: center;
+    padding: 20px;
+    color: #888;
+  }
+  
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .recommendations-container {
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+    }
+    
+    .dob-input {
+      width: 100%;
+      max-width: 200px;
+    }
+    
+    .recommendation-row {
+      padding: 10px;
+    }
+  }
+</style>
+
+<script>
+  async function suggestBeads(dateOfBirth, blockId) {
+    if (!dateOfBirth) return;
+    
+    const loadingEl = document.getElementById(`loading-${blockId}`);
+    const recommendationsWrapper = document.getElementById(`recommendations-wrapper-${blockId}`);
+    const noResultsEl = document.getElementById(`no-results-${blockId}`);
+    
+    // Show loading state
+    loadingEl.style.display = 'block';
+    recommendationsWrapper.style.display = 'none';
+    noResultsEl.style.display = 'none';
+    
+    try {
+      const birthDate = new Date(dateOfBirth);
+      const today = new Date();
+      const age = today.getFullYear() - birthDate.getFullYear();
+      const birthMonth = birthDate.getMonth() + 1;
+      
+      // Get separate tag sets
+      const ageTags = getAgeBasedTags(age);
+      const monthTags = getMonthBasedTags(birthMonth);
+      
+      // Fetch products for both categories
+      const [ageProducts, monthProducts] = await Promise.all([
+        fetchProductsByTags(ageTags),
+        fetchProductsByTags(monthTags)
+      ]);
+      
+      // Display both sections
+      displayRecommendations(ageProducts, `age-products-${blockId}`);
+      displayRecommendations(monthProducts, `month-products-${blockId}`);
+      
+      // Show recommendations wrapper if we have any products
+      if (ageProducts.length > 0 || monthProducts.length > 0) {
+        recommendationsWrapper.style.display = 'block';
+      } else {
+        noResultsEl.style.display = 'block';
+      }
+      
+    } catch (error) {
+      console.error('Error fetching recommendations:', error);
+      noResultsEl.style.display = 'block';
+    } finally {
+      loadingEl.style.display = 'none';
+    }
+  }
+  
+  function getAgeBasedTags(age) {
+    if (age < 13) return ['kids'];
+    if (age < 18) return ['teen'];
+    if (age < 25) return ['young-adult'];
+    if (age < 35) return ['professional'];
+    if (age < 50) return ['mature'];
+    return ['timeless', 'premium'];
+  }
+  
+  function getMonthBasedTags(month) {
+    const monthMappings = {
+      1: ['january'],
+      2: ['february'],
+      3: ['march'],
+      4: ['april'],
+      5: ['may'],
+      6: ['june'],
+      7: ['july'],
+      8: ['august'],
+      9: ['september'],
+      10: ['october'],
+      11: ['november'],
+      12: ['december']
+    };
+    
+    return monthMappings[month] || ['general'];
+  }
+  
+  async function fetchProductsByTags(tags) {
+    try {
+      const tagQuery = tags.map(tag => `tag:${tag}`).join(' OR ');
+      const response = await fetch(`/search/suggest.json?q=${encodeURIComponent(tagQuery)}&resources[type]=product&resources[limit]=4`);
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch products');
+      }
+      
+      const data = await response.json();
+      return data.resources?.results?.products || [];
+    } catch (error) {
+      console.error('Error in fetchProductsByTags:', error);
+      return [];
+    }
+  }
+  
+  function displayRecommendations(products, containerId) {
+    const container = document.getElementById(containerId);
+    
+    if (products.length === 0) {
+      container.innerHTML = '<p style="text-align: center; color: #888; font-style: italic;">No products found for this category</p>';
+      return;
+    }
+    
+    const productsHtml = products.map(product => `
+      <div class="product-card">
+        <img src="${product.featured_image || '/assets/no-image.png'}" alt="${product.title}" class="product-image" loading="lazy">
+        <div class="product-title">${product.title}</div>
+        <div class="product-price">${product.price}</div>
+        <a href="${product.url}" class="product-btn">View Details</a>
+      </div>
+    `).join('');
+    
+    container.innerHTML = productsHtml;
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Bead Suggester",
+  "target": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "widget_title",
+      "label": "Widget Title",
+      "default": "Find Your Perfect Beads"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#f9f9f9"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#007bff"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button Color",
+      "default": "#007bff"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price Color",
+      "default": "#007bff"
+    }
+  ]
+}
+{% endschema %}

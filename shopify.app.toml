@@ -1,0 +1,36 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "f2f3eb9462c1dd2ce7e9b9d3ec8b9e71"
+name = "beads"
+handle = "beads"
+application_url = "https://pricing-mother-watt-yn.trycloudflare.com"
+embedded = true
+
+[build]
+include_config_on_deploy = true
+automatically_update_urls_on_dev = true
+
+[webhooks]
+api_version = "2025-04"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/uninstalled" ]
+  uri = "/webhooks/app/uninstalled"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/scopes_update" ]
+  uri = "/webhooks/app/scopes_update"
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "read_products,write_products"
+
+[auth]
+redirect_urls = [
+  "https://pricing-mother-watt-yn.trycloudflare.com/auth/callback",
+  "https://pricing-mother-watt-yn.trycloudflare.com/auth/shopify/callback",
+  "https://pricing-mother-watt-yn.trycloudflare.com/api/auth/callback"
+]
+
+[pos]
+embedded = false
